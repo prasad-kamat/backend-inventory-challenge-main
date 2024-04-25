@@ -1,0 +1,39 @@
+{
+  "name": "nabis-coding-exercises",
+  "version": "1.0.0",
+  "description": "Backend coding challenge",
+  "main": "./src/sync.ts",
+  "author": "engineering@nabis.com",
+  "license": "Private",
+  "scripts": {
+    "build": "npm run clean && npm run compile",
+    "clean": "rm -rf ./dist && rm -f tsconfig.tsbuildinfo",
+    "compile": "tsc -b tsconfig.build.json",
+    "lint": "eslint \"src/**/*.ts\"",
+    "start": "tsc -p tsconfig.build.json --watch --preserveWatchOutput",
+    "test": "jest --colors",
+    "test:cov": "jest --coverage"
+  },
+  "types": "dist/index.d.ts",
+  "dependencies": {
+    "lodash": "4.17.21",
+    "ts-pattern": "^5.0.6",
+    "tslib": "2.6.2"
+  },
+  "devDependencies": {
+    "@jest/globals": "29.7.0",
+    "@types/jest": "29.5.11",
+    "@types/lodash": "4.14.202",
+    "@types/node": "20.11.12",
+    "jest": "29.7.0",
+    "jest-extended": "3.2.4",
+    "node-mocks-http": "1.14.1",
+    "supertest": "6.3.4",
+    "ts-jest": "29.1.2",
+    "ts-loader": "9.5.1",
+    "ts-mockito": "2.6.1",
+    "ts-node": "10.9.2",
+    "tsconfig-paths": "4.2.0",
+    "typescript": "5.3.3"
+  }
+}

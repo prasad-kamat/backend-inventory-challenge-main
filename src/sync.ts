@@ -97,7 +97,7 @@ export const makeUpdates = (delta: skuBatchUpdate): string[] => {
     // convert updates to sql and push updates
   const updatesToMake = delta.updates
     .map((ud: inventoryUpdate) => `${snakeCase(ud.field)} = ${formatSqlValue(ud.newValue)}`)
-    .join('; ');
+    .join(', ');
 
   return [
     getUpdateForSkuBatchRecord('inventory', updatesToMake, delta.skuBatchId),
@@ -111,8 +111,8 @@ export const makeUpdates = (delta: skuBatchUpdate): string[] => {
  * @param inventorySkuBatchData
  */
 export const findDeltas = (
-    appSkuBatchData: SkuBatchData[],
-    inventorySkuBatchData: SkuBatchData[],
+  appSkuBatchData: SkuBatchData[],
+  inventorySkuBatchData: SkuBatchData[],
 ): skuBatchUpdate[] => {
   logger.log('finding data changes between inventory and app SkuBatch datasets');
 
@@ -136,12 +136,12 @@ export const findDeltas = (
           const inventoryValue = inventoryRecord[key as keyof typeof inventoryRecord];
           const appValue = appSbd[key as keyof typeof appSbd];
 
-        if (key == 'skuId' && inventoryValue != null) {
+          if (key === 'skuId' && inventoryValue != null && appValue != null) {
             // if the key is skuId and the current value is set, we won't update
             return recordUpdates;
-        }
+          }
 
-          if (inventoryValue != appValue) {
+          if (inventoryValue !== appValue) {
             recordUpdates.push({ field: key, newValue: appValue });
           }
 

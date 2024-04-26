@@ -9,8 +9,15 @@ export const getUpdateForSkuBatchRecord = (table: string, updates: string, skuBa
 // no op that would take our db connection and execute the list of sql statements
 export const queryExec = (db: any, sql: string[]): Promise<void> => Promise.resolve();
 
-export const formatSqlValue = (v: string | number | boolean | null) => {
-    // build a function that will properly handle the quoting of values
-    // for the generated sql statement
-    return v;
+export const formatSqlValue = (v: string | number | boolean | null): string => {
+  if (v === null) {
+    return 'NULL'; // For null values, return 'NULL' without quotes
+  } else if (typeof v === 'string') {
+    // For string values, wrap in single quotes and escape any single quotes within the string
+    return `'${v.replace(/'/g, "''")}'`;
+  } else if (typeof v === 'number' || typeof v === 'boolean') {
+    return v.toString(); // For numbers and booleans, return the value as-is
+  }
+
+  return v;
 };

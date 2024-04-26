@@ -42,7 +42,7 @@ const postInventoryAggregateRequest = async (payload: any): Promise<void> => {
       await axios.post(`${API_BASE_URL}${INVENTORY_AGGREGATE_ENDPOINT}`, payload);
       logger.log(`POST request to ${INVENTORY_AGGREGATE_ENDPOINT} successful.`);
     } else {
-      throw new Error('Required fields (skuBatchId, skuId, warehouseId) are missing in the payload, or payload is not JSON.');
+      throw new Error('Required fields (skuBatchId, skuId) are missing in the payload, or payload is not JSON.');
     }
   } catch (error) {
     logger.error(`Error making POST request to ${INVENTORY_AGGREGATE_ENDPOINT}: ${error}`);
@@ -57,7 +57,7 @@ const putInventoryAggregateRequest = async (payload: any): Promise<void> => {
       await axios.put(`${API_BASE_URL}${INVENTORY_AGGREGATE_ENDPOINT}`, payload);
       logger.log(`PUT request to ${INVENTORY_AGGREGATE_ENDPOINT} successful.`);
     } else {
-      throw new Error('Required fields (skuBatchId, skuId, warehouseId) are missing in the payload, or payload is not JSON.');
+      throw new Error('Required fields (skuBatchId, skuId) are missing in the payload, or payload is not JSON.');
     }
   } catch (error) {
     logger.error(`Error making PUT request to ${INVENTORY_AGGREGATE_ENDPOINT}: ${error}`);

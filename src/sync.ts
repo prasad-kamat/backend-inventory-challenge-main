@@ -173,8 +173,13 @@ export async function findChangesBetweenDatasets(): Promise<string[]> {
 
       // if we have a count mismatch, something is wrong, and we should log out a warning
       if (appSkuBatchData.length != inventorySkuBatchData.length) {
-        // implement the logic to log a message with the IDs missing from app
-        // data that exist in the inventory data
+        logger.warn('Count mismatch between app and inventory data.');
+        
+        // Identify and log the IDs missing from app data that exist in the inventory data
+        const missingIds: string[] = inventorySkuBatchData
+          .filter((sbd: SkuBatchData) => !appSkuBatchData.some((appSbd: SkuBatchData) => appSbd.skuBatchId === sbd.skuBatchId))
+          .map((sbd: SkuBatchData) => sbd.skuBatchId);
+        logger.warn(`IDs missing from app data: ${missingIds.join(', ')}`);
       }
 
       // push our new sql updates into the accumulator list

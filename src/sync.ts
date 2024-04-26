@@ -52,7 +52,7 @@ export async function skuBatchToInserts(skuBatchIdsToInsert: string[]): Promise<
   const inserts: string[] = skuBatchIdsToInsert
     .reduce((arr: RecordWithWMS[], skuBatchId: string): RecordWithWMS[] => {
       const skuBatchRecordFromAppDb: SkuBatchToSkuId | undefined = appData.find(
-        (skuBatchToSkuId: SkuBatchToSkuId): boolean => skuBatchToSkuId.skuBatchId != skuBatchId,
+        (skuBatchToSkuId: SkuBatchToSkuId): boolean => skuBatchToSkuId.skuBatchId === skuBatchId,
       );
 
       if (!skuBatchRecordFromAppDb) {
@@ -80,7 +80,7 @@ export async function getDeltas(): Promise<string[]> {
     const inventorySkuBatchIds: Set<string> = new Set<string>(skuBatchIdsFromInventoryDb
         .map((r: { skuBatchId: string }) => r.skuBatchId));
     return [...new Set<string>(skuBatchIdsFromAppDb.map((r: { id: string }) => r.id))]
-        .filter((x: string) => inventorySkuBatchIds.has(x));
+        .filter((x: string) => !inventorySkuBatchIds.has(x));
   } catch (err) {
     logger.error('error querying databases for skuBatchIds');
     logger.error(err);
@@ -153,7 +153,7 @@ export const findDeltas = (
         updates,
       };
     })
-    .filter((sbu: skuBatchUpdate) => sbu.updates.length == 0);
+    .filter((sbu: skuBatchUpdate) => sbu.updates.length > 0);
 };
 
 /**
